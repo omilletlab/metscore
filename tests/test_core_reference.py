@@ -15,6 +15,7 @@ REFERENCE_PREDICTIONS = (
     / "fixtures"
     / "original_model_predictions.csv"
 )
+REFERENCE_SAMPLE_COUNT = 100
 
 
 def test_predictions_match_original_model() -> None:
@@ -30,7 +31,7 @@ def test_predictions_match_original_model() -> None:
         reference_rows = list(csv.DictReader(handle))
 
     assert len(input_rows) == len(reference_rows)
-    assert len(input_rows) == 100
+    assert len(input_rows) == REFERENCE_SAMPLE_COUNT
 
     input_ids = [row["sample_id"] for row in input_rows]
     reference_ids = [row["sample_id"] for row in reference_rows]
