@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RESULTS version="B.I.Quant-PS 2.1.0+test">
+   <SAMPLE
+      date="16-Sep-2026 20:14:15"
+      name="sample_001"
+      project=""
+      type="plasma/serum"
+   />
+   <CLASSIFICATION/>
+   <VERIFICATION/>
+   <QUANTIFICATION version="2.1.0+test Research Use Only">
+      <PARAMETER name="Trimethylamine-N-oxide" type="quantification">
+         <VALUE
+            conc="0"
+            concUnit="mmol/L"
+            lod="0.080"
+            lodUnit="mmol/L"
+            loq="-"
+            loqUnit="mmol/L"
+         />
+         <RELDATA
+            rawConc="0.022"
+            rawConcUnit="mmol/L"
+         />
+      </PARAMETER>
+
+      <PARAMETER name="Alanine" type="quantification">
+         <VALUE
+            conc="0.51"
+            concUnit="mmol/L"
+            lod="0.020"
+            lodUnit="mmol/L"
+            loq="-"
+            loqUnit="mmol/L"
+         />
+         <RELDATA
+            rawConc="0.514"
+            rawConcUnit="mmol/L"
+         />
+      </PARAMETER>
+            <PARAMETER name="Glycine" type="quantification">
+         <VALUE
+            conc="0.40"
+            concUnit="mmol/L"
+            lod="0.010"
+            lodUnit="mmol/L"
+            loq="-"
+            loqUnit="mmol/L"
+         />
+      </PARAMETER>
+   </QUANTIFICATION>
+</RESULTS>

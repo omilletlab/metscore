@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RESULTS version="Version 1.0.0, 30-Dec-2020 14:23:02">
+   <SAMPLE
+      date="30-Dec-2020 13:11:34"
+      name="sample_legacy"
+      project=""
+      type="Plasma / Serum"
+   />
+   <CLASSIFICATION/>
+   <VERIFICATION/>
+   <QUANTIFICATION version="PL-5009-01/001 (RESEARCH USE ONLY)">
+      <PARAMETER
+         comment="Main Parameters, LDL Cholesterol, LDL-Chol"
+         name="LDCH"
+         type="prediction"
+      >
+         <VALUE
+            lod="-"
+            loq="-"
+            unit="mg/dL"
+            value="149.95"
+         />
+      </PARAMETER>
+
+      <PARAMETER
+         comment="Lipoprotein Main Fractions, Cholesterol, LDL"
+         name="LDCH"
+         type="prediction"
+      >
+         <VALUE
+            lod="-"
+            loq="-"
+            unit="mg/dL"
+            value="149.95"
+         />
+      </PARAMETER>
+
+      <PARAMETER
+         comment="Lipoprotein Main Fractions, Free Cholesterol, HDL"
+         name="HDFC"
+         type="prediction"
+      >
+         <VALUE
+            lod="-"
+            loq="-"
+            unit="mg/dL"
+            value="11.02"
+         />
+      </PARAMETER>
+
+      <PARAMETER
+         comment="LDL Subfractions, Triglycerides, LDL-5"
+         name="L5TG"
+         type="prediction"
+      >
+         <VALUE
+            lod="-"
+            loq="-"
+            unit="mg/dL"
+            value="3.85"
+         />
+      </PARAMETER>
+   </QUANTIFICATION>
+</RESULTS>
