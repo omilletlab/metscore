@@ -9,6 +9,14 @@ dependencies = [
     "pandas>=2.2.2",
 ]
 
+[project.optional-dependencies]
+excel = [
+    "openpyxl>=3.1.5",
+]
+
+[project.scripts]
+metscore = "metscore.cli:main"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

@@ -2,16 +2,18 @@ import numpy as np
 
 from metscore.parameters import load_parameters
 
+N_MODEL_VARIABLES = 22
+N_ORTHOGONAL_COMPONENTS = 1
 
 def test_load_parameters() -> None:
     parameters = load_parameters()
 
-    assert len(parameters.variables) == 22
-    assert parameters.x_mean.shape == (22,)
-    assert parameters.x_sd.shape == (22,)
-    assert parameters.w_orth.shape == (1, 22)
-    assert parameters.p_orth.shape == (1, 22)
-    assert parameters.w_pred.shape == (22,)
+    assert len(parameters.variables) == N_MODEL_VARIABLES
+    assert parameters.x_mean.shape == (N_MODEL_VARIABLES,)
+    assert parameters.x_sd.shape == (N_MODEL_VARIABLES,)
+    assert parameters.w_orth.shape == (N_ORTHOGONAL_COMPONENTS, N_MODEL_VARIABLES)
+    assert parameters.p_orth.shape == (N_ORTHOGONAL_COMPONENTS, N_MODEL_VARIABLES)
+    assert parameters.w_pred.shape == (N_MODEL_VARIABLES,)
 
 
 def test_parameter_arrays_are_finite() -> None:
