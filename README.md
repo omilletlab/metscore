@@ -384,10 +384,6 @@ Run the full test suite with:
 uv run pytest
 ```
 
-The main architectural and implementation decisions are documented in:
-
-```text
-docs/design-decisions.md
-```
+The main architectural and implementation decisions are documented in [docs/design-decisions.md](docs/design-decisions.md).
 
 Contributions should preserve the separation between input/output adapters and the mathematical model core. New functionality should be accompanied by appropriate automated tests.
