@@ -6,10 +6,12 @@ from pathlib import Path
 
 import pandas as pd
 
+from metscore.bruker_input import predict_bruker_files as _predict_bruker_files
 from metscore.tabular import predict
 
 
 _SUPPORTED_SUFFIXES = {".csv", ".xlsx"}
+_XML_SUFFIX = ".xml"
 
 
 def predict_file(
@@ -67,21 +69,116 @@ def predict_file(
     if input_file.resolve() == output_file.resolve():
         raise ValueError("Input and output paths must be different.")
 
-    if not output_file.parent.exists():
-        raise FileNotFoundError(
-            f"Output directory does not exist: {output_file.parent}"
-        )
-
-    if output_file.exists():
-        raise FileExistsError(
-            f"Output file already exists: {output_file}"
-        )
+    _validate_output_file(output_file)
 
     data = _read_table(input_file)
     result = predict(data)
     _write_table(result, output_file)
 
     return output_file
+
+
+def predict_bruker_file_pair(
+    first_path: str | PathLike[str],
+    second_path: str | PathLike[str],
+    output_path: str | PathLike[str] | None = None,
+) -> Path:
+    """Calculate MetSCORE from two Bruker XML reports.
+
+    The XML files may be provided in any order. One must contain metabolite
+    quantification results and the other lipoprotein quantification results.
+
+    Parameters
+    ----------
+    first_path
+        Path to the first Bruker XML report.
+    second_path
+        Path to the second Bruker XML report.
+    output_path
+        Path for the prediction output. If omitted, a CSV file named from
+        the normalized sample identifier is created in the current working
+        directory.
+
+    Returns
+    -------
+    pathlib.Path
+        Path to the generated output file.
+
+    Raises
+    ------
+    FileNotFoundError
+        If an input file or output directory does not exist.
+    FileExistsError
+        If the output file already exists.
+    ValueError
+        If the two input paths are identical, an input is not an XML file,
+        the Bruker reports are incompatible, or the output format is not
+        supported.
+    ImportError
+        If Excel output is requested but the optional dependency is not
+        installed.
+    """
+    first_file = Path(first_path)
+    second_file = Path(second_path)
+
+    for input_file in (first_file, second_file):
+        if not input_file.is_file():
+            raise FileNotFoundError(
+                f"Input file does not exist: {input_file}"
+            )
+
+        if input_file.suffix.lower() != _XML_SUFFIX:
+            raise ValueError(
+                f"Expected a Bruker XML file, got: {input_file}"
+            )
+
+    if first_file.resolve() == second_file.resolve():
+        raise ValueError("Bruker XML input paths must be different.")
+
+    result = _predict_bruker_files(
+        first_file,
+        second_file,
+    )
+
+    if output_path is None:
+        sample_id = str(result.iloc[0]["sample_id"])
+        output_file = _default_bruker_output_path(sample_id)
+    else:
+        output_file = Path(output_path)
+
+    _validate_suffix(output_file)
+    _validate_output_file(output_file)
+
+    _write_table(result, output_file)
+
+    return output_file
+
+
+def _default_bruker_output_path(sample_id: str) -> Path:
+    if (
+        not sample_id
+        or sample_id in {".", ".."}
+        or "/" in sample_id
+        or "\\" in sample_id
+    ):
+        raise ValueError(
+            "Bruker sample identifier cannot be used safely as an output "
+            f"filename: {sample_id!r}"
+        )
+
+    return Path.cwd() / f"{sample_id}_metscore.csv"
+
+
+def _validate_output_file(path: Path) -> None:
+    if not path.parent.exists():
+        raise FileNotFoundError(
+            f"Output directory does not exist: {path.parent}"
+        )
+
+    if path.exists():
+        raise FileExistsError(
+            f"Output file already exists: {path}"
+        )
 
 
 def _validate_suffix(path: Path) -> None:

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RESULTS version="Quant-PS 2.0.0 Research Use Only">
+   <SAMPLE
+      date="30-Dec-2020 13:11:34"
+      name="sample_legacy"
+      project=""
+      type="plasma/serum"
+   />
+   <CLASSIFICATION/>
+   <VERIFICATION/>
+   <QUANTIFICATION version="Quant-PS 2.0.0 Research Use Only">
+      <PARAMETER name="Alanine" type="quantification">
+         <VALUE
+            lod="0.020"
+            loq="-"
+            unit="mmol/L"
+            value="0.48"
+            valueext="0.48"
+         />
+      </PARAMETER>
+
+      <PARAMETER name="Glucose" type="quantification">
+         <VALUE
+            lod="0.540"
+            loq="-"
+            unit="mmol/L"
+            value="4.1"
+            valueext="4.1"
+         />
+      </PARAMETER>
+   </QUANTIFICATION>
+</RESULTS>
