@@ -4,7 +4,7 @@ import argparse
 from collections.abc import Sequence
 from pathlib import Path
 
-from metscore.files import predict_file
+from metscore.files import predict_bruker_file_pair, predict_file
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -15,9 +15,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
-        "input",
+        "inputs",
+        nargs="+",
         type=Path,
-        help="Input CSV or XLSX file.",
+        help=(
+            "One CSV/XLSX file, or two Bruker XML reports "
+            "(metabolites and lipoproteins, in any order)."
+        ),
     )
 
     parser.add_argument(
@@ -39,10 +43,32 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     try:
-        output = predict_file(
-            args.input,
-            output_path=args.output,
-        )
+        if len(args.inputs) == 1:
+            input_file = args.inputs[0]
+
+            if input_file.suffix.lower() == ".xml":
+                raise ValueError(
+                    "Bruker XML prediction requires two XML input files: "
+                    "one metabolite report and one lipoprotein report."
+                )
+
+            output = predict_file(
+                input_file,
+                output_path=args.output,
+            )
+
+        elif len(args.inputs) == 2:
+            output = predict_bruker_file_pair(
+                args.inputs[0],
+                args.inputs[1],
+                output_path=args.output,
+            )
+
+        else:
+            raise ValueError(
+                "Expected one CSV/XLSX input file or two Bruker XML input files."
+            )
+
     except (
         FileNotFoundError,
         FileExistsError,
