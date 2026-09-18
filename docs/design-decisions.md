@@ -138,6 +138,18 @@ Although the current model contains one orthogonal component, the implementation
 
 The array-level API is intentionally strict because NumPy arrays do not contain variable names.
 
+## Threshold and binary classification
+
+The trained model parameters include a classification threshold inherited from the original MetSCORE implementation.
+
+The current Python package does not use this threshold to generate a binary classification. MetSCORE is exposed as a continuous value between 0 and 1, which is considered sufficiently informative for the intended use of the package.
+
+The original threshold corresponds approximately to a MetSCORE value of 0.5.
+
+The threshold is retained in the packaged model parameters for completeness and reproducibility but is not currently exposed through the prediction outputs, Python API, or command-line interface.
+
+If binary classification is added in the future, its interpretation and intended use should be defined explicitly rather than inferred from the presence of the stored threshold.
+
 ## Tabular API
 
 For pandas DataFrames, one row represents one sample.
