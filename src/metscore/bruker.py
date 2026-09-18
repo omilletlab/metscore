@@ -4,6 +4,7 @@ from dataclasses import dataclass
 import math
 from pathlib import Path
 import xml.etree.ElementTree as ET
+import re
 
 
 @dataclass(frozen=True, slots=True)
@@ -295,3 +296,50 @@ def _clean_text(value: str | None) -> str | None:
         return None
 
     return cleaned
+
+
+def normalize_bruker_sample_name(sample_name: str) -> str:
+    """Normalize known technical suffixes in Bruker sample names.
+
+    Parameters
+    ----------
+    sample_name
+        Sample name reported in a Bruker XML file.
+
+    Returns
+    -------
+    str
+        Sample name with known Bruker acquisition suffixes removed.
+    """
+    return re.sub(
+        r"_expno\d+\.100000\.\d+r$",
+        "",
+        sample_name,
+    )
+
+
+def bruker_reports_match_sample(
+    first: BrukerReport,
+    second: BrukerReport,
+) -> bool:
+    """Return whether two Bruker reports correspond to the same sample.
+
+    Sample names are compared after removing known Bruker acquisition
+    suffixes used by legacy report formats.
+
+    Parameters
+    ----------
+    first
+        First Bruker report.
+    second
+        Second Bruker report.
+
+    Returns
+    -------
+    bool
+        ``True`` if the normalized sample names are identical.
+    """
+    return (
+        normalize_bruker_sample_name(first.sample_name)
+        == normalize_bruker_sample_name(second.sample_name)
+    )
