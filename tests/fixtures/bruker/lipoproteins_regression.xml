@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RESULTS version="B.I.LISA 1.1.0+test">
+   <SAMPLE
+      date="01-Jan-2026 00:00:00"
+      name="sample_regression_001"
+      project=""
+      type="plasma/serum"
+   />
+   <CLASSIFICATION/>
+   <VERIFICATION/>
+   <QUANTIFICATION version="PL-5009-01/002 (RESEARCH USE ONLY)">
+      <PARAMETER name="L5TG" type="prediction">
+         <VALUE lod="-" loq="-" unit="mg/dL" value="4.41" valueext=""/>
+      </PARAMETER>
+
+      <PARAMETER name="HDFC" type="prediction">
+         <VALUE lod="-" loq="-" unit="mg/dL" value="6.22" valueext=""/>
+      </PARAMETER>
+
+      <PARAMETER name="H3TG" type="prediction">
+         <VALUE lod="-" loq="-" unit="mg/dL" value="1.68" valueext=""/>
+      </PARAMETER>
+
+      <PARAMETER name="H4FC" type="prediction">
+         <VALUE lod="-" loq="-" unit="mg/dL" value="3.77" valueext=""/>
+      </PARAMETER>
+
+      <PARAMETER name="V1PL" type="prediction">
+         <VALUE lod="-" loq="-" unit="mg/dL" value="11.29" valueext=""/>
+      </PARAMETER>
+
+      <PARAMETER name="L2FC" type="prediction">
+         <VALUE lod="-" loq="-" unit="mg/dL" value="4.14" valueext=""/>
+      </PARAMETER>
+
+      <PARAMETER name="L6TG" type="prediction">
+         <VALUE lod="-" loq="-" unit="mg/dL" value="5.90" valueext=""/>
+      </PARAMETER>
+   </QUANTIFICATION>
+</RESULTS>

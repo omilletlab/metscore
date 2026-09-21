@@ -477,3 +477,30 @@ def test_predicts_metscore_from_bruker_xml_files(tmp_path: Path) -> None:
     assert "t_orth_1" in result.columns
 
     assert 0.0 <= result.loc[0, "MetSCORE"] <= 1.0
+
+
+def test_bruker_xml_regression_matches_original_r_model() -> None:
+    fixture_dir = Path(__file__).parent / "fixtures" / "bruker"
+
+    result = predict_bruker_files(
+        fixture_dir / "metabolites_regression.xml",
+        fixture_dir / "lipoproteins_regression.xml",
+    )
+
+    assert result.loc[0, "sample_id"] == "sample_regression_001"
+
+    assert result.loc[0, "t_pred"] == pytest.approx(
+        1.09254067903752,
+        rel=1e-12,
+        abs=1e-12,
+    )
+    assert result.loc[0, "t_orth_1"] == pytest.approx(
+        2.32953294534929,
+        rel=1e-12,
+        abs=1e-12,
+    )
+    assert result.loc[0, "MetSCORE"] == pytest.approx(
+        0.388609410044161,
+        rel=1e-12,
+        abs=1e-12,
+    )
