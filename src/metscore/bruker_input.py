@@ -188,8 +188,13 @@ def predict_bruker_files(
 ) -> pd.DataFrame:
     """Calculate MetSCORE from two Bruker XML reports.
 
-    The files may be provided in any order. One must be a metabolite
-    quantification report and the other a lipoprotein quantification report.
+    The two files may be provided in any order. One must contain metabolite
+    quantification results and the other lipoprotein quantification results.
+    The reports must correspond to the same sample.
+
+    Metabolite values are expected in mmol/L and lipoprotein values in mg/dL.
+    Required units are validated from the XML reports; no unit conversion is
+    performed.
 
     Parameters
     ----------
@@ -201,8 +206,19 @@ def predict_bruker_files(
     Returns
     -------
     pandas.DataFrame
-        One-row DataFrame containing the normalized sample identifier, the
-        MetSCORE input variables, and the model prediction outputs.
+        One-row DataFrame containing the normalized sample identifier,
+        the 22 MetSCORE input variables, ``MetSCORE``, ``t_pred``, and
+        one ``t_orth_<n>`` column per orthogonal component.
+
+    Raises
+    ------
+    FileNotFoundError
+        If either input file does not exist.
+    ValueError
+        If the reports cannot be parsed as compatible Bruker metabolite
+        and lipoprotein reports, do not correspond to the same sample,
+        are missing required MetSCORE variables, or contain unexpected
+        units or invalid values.
     """
     data = prepare_bruker_input_from_files(
         first_file,

@@ -15,7 +15,7 @@ class PredictionResult:
     Attributes
     ----------
     metscore
-        MetSCORE values, one per sample.
+        MetSCORE values between 0 and 1, one per sample.
     t_pred
         Predictive OPLS scores, one per sample.
     t_orth
@@ -31,22 +31,28 @@ class PredictionResult:
 def predict_array(
     x: ArrayLike,
 ) -> PredictionResult:
-    """Apply the packaged MetSCORE model to a numeric array.
+    """Calculate MetSCORE from a numeric array.
 
-    Input variables must follow the exact order defined by the MetSCORE
-    model. Named tabular inputs should use :func:`metscore.predict`,
-    which reorders variables automatically.
+    This low-level interface expects the MetSCORE input variables in the
+    exact order required by the packaged model. Variable names and units
+    cannot be validated because the input array contains no column metadata.
+
+    For named tabular data, use `metscore.predict`, which selects and
+    reorders the required variables automatically.
 
     Parameters
     ----------
     x
         Input values with shape ``(n_variables,)`` for one sample or
-        ``(n_samples, n_variables)`` for multiple samples.
+        ``(n_samples, n_variables)`` for multiple samples. Values must use
+        the units expected by the MetSCORE model; no unit conversion is
+        performed.
 
     Returns
     -------
     PredictionResult
-        MetSCORE, predictive scores, and orthogonal scores for all samples.
+        MetSCORE values, predictive OPLS scores, and orthogonal OPLS scores
+        for all samples.
 
     Raises
     ------

@@ -12,14 +12,16 @@ def predict(
 ) -> pd.DataFrame:
     """Calculate MetSCORE from a tabular dataset.
 
-    Each row represents one sample. Model variables are selected and
-    reordered automatically by column name, so their original order in
+    Each row represents one sample. Required MetSCORE variables are selected
+    and reordered automatically by column name, so their original order in
     the DataFrame does not matter. Additional columns are preserved.
 
     Parameters
     ----------
     data
         Input DataFrame containing all variables required by MetSCORE.
+        Model variables must be numeric and expressed in the units expected
+        by the MetSCORE model; no unit conversion is performed.
 
     Returns
     -------
