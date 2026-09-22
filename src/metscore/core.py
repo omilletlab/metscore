@@ -30,23 +30,18 @@ class PredictionResult:
 
 def predict_array(
     x: ArrayLike,
-    *,
-    parameters: ModelParameters | None = None,
 ) -> PredictionResult:
-    """Apply the MetSCORE model to a numeric array.
+    """Apply the packaged MetSCORE model to a numeric array.
 
-    Input variables must follow the exact order defined by
-    ``parameters.variables``. Named tabular inputs will be handled by
-    higher-level interfaces that reorder variables automatically.
+    Input variables must follow the exact order defined by the MetSCORE
+    model. Named tabular inputs should use :func:`metscore.predict`,
+    which reorders variables automatically.
 
     Parameters
     ----------
     x
         Input values with shape ``(n_variables,)`` for one sample or
         ``(n_samples, n_variables)`` for multiple samples.
-    parameters
-        Model parameters. If omitted, the packaged MetSCORE parameters
-        are loaded automatically.
 
     Returns
     -------
@@ -60,7 +55,17 @@ def predict_array(
         or contains values incompatible with the ``log10(x + 1)``
         transformation.
     """
-    params = parameters if parameters is not None else load_parameters()
+    return _predict_array(
+        x,
+        load_parameters(),
+    )
+
+
+def _predict_array(
+    x: ArrayLike,
+    parameters: ModelParameters,
+) -> PredictionResult:
+    params = parameters
 
     x_array = np.asarray(x, dtype=float)
 

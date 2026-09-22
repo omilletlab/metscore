@@ -3,14 +3,12 @@ from __future__ import annotations
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 
-from metscore.core import predict_array
-from metscore.parameters import ModelParameters, load_parameters
+from metscore.core import _predict_array
+from metscore.parameters import load_parameters
 
 
 def predict(
     data: pd.DataFrame,
-    *,
-    parameters: ModelParameters | None = None,
 ) -> pd.DataFrame:
     """Calculate MetSCORE from a tabular dataset.
 
@@ -22,9 +20,6 @@ def predict(
     ----------
     data
         Input DataFrame containing all variables required by MetSCORE.
-    parameters
-        Model parameters. If omitted, the packaged MetSCORE parameters
-        are loaded automatically.
 
     Returns
     -------
@@ -52,7 +47,7 @@ def predict(
         names = ", ".join(str(name) for name in duplicated)
         raise ValueError(f"Duplicate column names are not allowed: {names}")
 
-    params = parameters if parameters is not None else load_parameters()
+    params = load_parameters()
 
     missing_variables = [
         variable
@@ -95,7 +90,7 @@ def predict(
 
     x = data.loc[:, list(params.variables)].to_numpy(dtype=float)
 
-    prediction = predict_array(x, parameters=params)
+    prediction = _predict_array(x, params)
 
     result = data.copy()
     result["MetSCORE"] = prediction.metscore
