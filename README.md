@@ -197,7 +197,6 @@ result.t_orth.shape    -> (n, 1)
 
 The `t_orth` output is always two-dimensional so that the interface remains compatible with models containing more than one orthogonal component.
 
-For most users working with named tabular data, `metscore.predict()` is preferred because it validates and reorders model variables automatically.
 
 ## Command-line usage
 
@@ -271,6 +270,19 @@ The CLI uses the same prediction pipeline as the Python API; no separate model i
 ## Bruker XML input
 
 MetSCORE can calculate predictions directly from paired Bruker metabolite and lipoprotein quantification reports.
+
+From Python, paired Bruker XML reports can be processed directly through the public API:
+
+```python
+import metscore
+
+result = metscore.predict_bruker_files(
+    "metabolites.xml",
+    "lipoproteins.xml",
+)
+```
+
+The two XML files may be provided in either order. The returned DataFrame contains the normalized sample identifier, the 22 MetSCORE input variables, and the model outputs.
 
 Two XML files are required for each sample:
 

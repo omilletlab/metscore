@@ -71,6 +71,64 @@ canonical DataFrame
 existing prediction pipeline
 ```
 
+## Public API
+
+The package intentionally exposes a small public API focused on calculating MetSCORE rather than providing a generic framework for arbitrary models.
+
+The primary public Python interface is:
+
+```text
+metscore.PredictionResult
+metscore.predict
+metscore.predict_array
+metscore.predict_bruker_files
+```
+
+These interfaces cover the main programmatic workflows:
+
+```text
+pandas DataFrame
+    ↓
+metscore.predict()
+
+numeric array
+    ↓
+metscore.predict_array()
+
+paired Bruker XML reports
+    ↓
+metscore.predict_bruker_files()
+```
+
+`predict()` and `predict_array()` always use the trained MetSCORE parameters distributed with the package. Earlier internal designs allowed model parameters to be supplied explicitly, but this option was removed from the public interface.
+
+This is intentional: MetSCORE is distributed as an implementation of the trained MetSCORE model, not as a general-purpose OPLS modelling framework. Model loading and parameter management therefore remain implementation details.
+
+The following components are considered internal and are not part of the stable public API:
+
+```text
+ModelParameters
+load_parameters()
+_predict_array()
+read_bruker_report()
+prepare_bruker_input()
+prepare_bruker_input_from_files()
+Bruker parsing and normalization helpers
+```
+
+Internal components may change as the implementation evolves without implying a corresponding change to the supported user-facing API.
+
+File-oriented utilities are available separately through `metscore.files`:
+
+```text
+predict_file()
+predict_bruker_file_pair()
+```
+
+These functions are intended for workflows in which predictions are read from and written to files. They are kept separate from the top-level API because they perform filesystem operations, whereas the primary Python prediction functions return in-memory results.
+
+The command-line interface uses the same underlying prediction pipeline and does not maintain an independent model implementation.
+
 ## Model parameters
 
 The trained model parameters are distributed as package data in:
