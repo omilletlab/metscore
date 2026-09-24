@@ -482,6 +482,7 @@ excel = [
 
 [package.dev-dependencies]
 app = [
+    { name = "openpyxl" },
     { name = "streamlit" },
 ]
 dev = [
@@ -501,7 +502,10 @@ requires-dist = [
 provides-extras = ["excel"]
 
 [package.metadata.requires-dev]
-app = [{ name = "streamlit", specifier = ">=1.64.0" }]
+app = [
+    { name = "openpyxl", specifier = ">=3.1.5" },
+    { name = "streamlit", specifier = ">=1.64.0" },
+]
 dev = [{ name = "pytest", specifier = ">=9.1.1" }]
 docs = [
     { name = "mkdocs", specifier = ">=1.6.1" },
