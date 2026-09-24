@@ -16,4 +16,3 @@ This documentation covers the public Python API, supported input formats, web ap
 
 * [Web application](web-app.md) — interactive calculation from tabular data or Bruker XML reports.
 * [API reference](api.md) — public Python interface.
-* [Design decisions](design-decisions.md) — architectural and implementation decisions.

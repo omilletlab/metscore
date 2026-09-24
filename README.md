@@ -352,7 +352,7 @@ If no output path is specified, the prediction is written to the current working
 For example:
 
 ```text
-AK00028V4_S1_metscore.csv
+SAMPLE001_metscore.csv
 ```
 
 An explicit output path can be provided with `-o` or `--output`:
@@ -511,10 +511,6 @@ The application will be available through the local Streamlit server, typically 
 ```text
 http://localhost:8501
 ```
-
-The main architectural and implementation decisions are documented in [docs/design-decisions.md](docs/design-decisions.md).
-
-Contributions should preserve the separation between input/output adapters and the mathematical model core. New functionality should be accompanied by appropriate automated tests.
 
 ## License
 
