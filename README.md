@@ -468,3 +468,10 @@ uv run pytest
 The main architectural and implementation decisions are documented in [docs/design-decisions.md](docs/design-decisions.md).
 
 Contributions should preserve the separation between input/output adapters and the mathematical model core. New functionality should be accompanied by appropriate automated tests.
+
+## License
+
+This software is available for academic and non-commercial research use.
+Commercial use requires prior written authorization from CIC bioGUNE.
+
+See the [LICENSE](LICENSE) file for details.
