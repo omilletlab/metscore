@@ -14,6 +14,37 @@ This package provides an independent Python implementation of the trained MetSCO
 
 The implementation supports prediction from individual or multiple samples and exposes the MetSCORE value together with the underlying predictive (`t_pred`) and orthogonal (`t_orth`) model scores.
 
+## Contents
+
+- [About MetSCORE](#about-metscore)
+- [Web application](#web-application)
+- [Installation](#installation)
+- [Input data](#input-data)
+- [Python usage](#python-usage)
+- [Command-line usage](#command-line-usage)
+- [Bruker XML input](#bruker-xml-input)
+- [Output](#output)
+- [Example data](#example-data)
+- [Model validation](#model-validation)
+- [Citation](#citation)
+- [Development](#development)
+- [License](#license)
+
+## Web application
+
+MetSCORE also provides a web application for interactive calculation without requiring users to work directly with the Python API or command-line interface.
+
+The web interface supports:
+
+* CSV and Excel files containing one or multiple samples;
+* paired Bruker metabolite and lipoprotein XML reports.
+
+The application uses the same validated Python implementation and prediction pipeline as the package.
+
+See the [web application documentation](docs/web-app.md) for details.
+
+A link to the public hosted application will be added when deployment is available.
+
 ## Installation
 
 MetSCORE requires **Python 3.11 or newer**.
@@ -453,7 +484,7 @@ git clone https://github.com/omilletlab/metscore.git
 cd metscore
 ```
 
-Create the complete development environment, including optional Excel support:
+Create the development environment, including optional Excel support:
 
 ```bash
 uv sync --extra excel
@@ -463,6 +494,22 @@ Run the full test suite with:
 
 ```bash
 uv run pytest
+```
+
+### Run the web application locally
+
+The Streamlit web application is maintained as a separate development dependency group.
+
+Run it locally with:
+
+```bash
+uv run --group app streamlit run app/streamlit_app.py
+```
+
+The application will be available through the local Streamlit server, typically at:
+
+```text
+http://localhost:8501
 ```
 
 The main architectural and implementation decisions are documented in [docs/design-decisions.md](docs/design-decisions.md).
