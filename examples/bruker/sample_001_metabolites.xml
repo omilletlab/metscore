@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RESULTS version="B.I.Quant-PS 2.1.0+example">
+   <SAMPLE
+      date="01-Jan-2026 00:00:00"
+      name="sample_001"
+      project=""
+      type="plasma/serum"
+   />
+   <CLASSIFICATION/>
+   <VERIFICATION/>
+   <QUANTIFICATION version="2.1.0+example Research Use Only">
+      <PARAMETER name="Alanine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.33" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Citric acid" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.207" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Creatine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.003" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Creatinine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.119" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Formic acid" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.026" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Glucose" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="5.362" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Glutamic acid" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Glycine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.27" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Isoleucine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.061" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Lactic acid" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="1.963" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Methionine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.093" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Phenylalanine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.059" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Proline" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Sarcosine" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.002" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+      <PARAMETER name="Trimethylamine-N-oxide" type="quantification">
+         <VALUE conc="0" concUnit="mmol/L" lod="-" lodUnit="mmol/L" loq="-" loqUnit="mmol/L"/>
+         <RELDATA rawConc="0.017" rawConcUnit="mmol/L"/>
+      </PARAMETER>
+   </QUANTIFICATION>
+</RESULTS>
