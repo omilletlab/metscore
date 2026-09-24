@@ -422,23 +422,40 @@ The order of samples is preserved.
 
 ## Example data
 
-The repository includes a complete example dataset:
+The repository includes example inputs for all currently supported input formats:
 
-```text id="jv5mw0"
-examples/example_data.csv
+```text
+examples/
+├── example_data.csv
+├── example_data.xlsx
+└── bruker/
+    ├── sample_001_metabolites.xml
+    └── sample_001_lipoproteins.xml
 ```
 
-It contains 100 example samples with anonymized identifiers (`sample_001`, `sample_002`, ...) and all 22 variables required by the MetSCORE model.
+The CSV and Excel files contain the same 100 example samples with anonymized identifiers (`sample_001`, `sample_002`, ...).
 
-The file can be used directly with either the Python API or the command-line interface:
+The paired Bruker XML files represent `sample_001` from the tabular example dataset using the supported metabolite and lipoprotein report structures. The quantitative values in the XML files correspond to the same 22 MetSCORE input variables as `sample_001` in the CSV and Excel files.
 
-```bash id="ioioy7"
+These examples can be used to test the Python API, command-line interface, and web application.
+
+### Tabular example
+
+From the command line:
+
+```bash
 metscore examples/example_data.csv
 ```
 
 or:
 
-```python id="8uqwj9"
+```bash
+metscore examples/example_data.xlsx
+```
+
+From Python:
+
+```python
 import pandas as pd
 
 import metscore
@@ -446,6 +463,33 @@ import metscore
 data = pd.read_csv("examples/example_data.csv")
 result = metscore.predict(data)
 ```
+
+The same CSV or Excel file can also be uploaded directly through the tabular workflow of the web application.
+
+### Bruker XML example
+
+From the command line:
+
+```bash
+metscore \
+  examples/bruker/sample_001_metabolites.xml \
+  examples/bruker/sample_001_lipoproteins.xml
+```
+
+From Python:
+
+```python
+import metscore
+
+result = metscore.predict_bruker_files(
+    "examples/bruker/sample_001_metabolites.xml",
+    "examples/bruker/sample_001_lipoproteins.xml",
+)
+```
+
+The same two XML files can also be uploaded through the Bruker XML workflow of the web application.
+
+Automated tests verify that the CSV and Excel example datasets are equivalent and that the Bruker XML example produces the same MetSCORE prediction as `sample_001` in the tabular example data.
 
 ## Model validation
 
