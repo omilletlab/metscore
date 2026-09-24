@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from metscore.files import predict_bruker_file_pair, predict_file
+from metscore.files import predict_bruker_file_pair, predict_file, read_table
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -453,3 +453,35 @@ def test_predict_bruker_file_pair_rejects_unsafe_sample_id(
             first_xml,
             second_xml,
         )
+
+def test_read_table_rejects_duplicate_csv_headers(tmp_path):
+    path = tmp_path / "duplicate.csv"
+    path.write_text(
+        "Alanine,Glucose,Alanine\n1,2,3\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"duplicate column names.*Alanine",
+    ):
+        read_table(path)
+
+
+def test_read_table_rejects_duplicate_excel_headers(tmp_path):
+    path = tmp_path / "duplicate.xlsx"
+
+    pd.DataFrame(
+        [[1, 2, 3]],
+        columns=["Alanine", "Glucose", "Alanine"],
+    ).to_excel(
+        path,
+        index=False,
+        engine="openpyxl",
+    )
+
+    with pytest.raises(
+        ValueError,
+        match=r"duplicate column names.*Alanine",
+    ):
+        read_table(path)
