@@ -190,14 +190,91 @@ def _validate_suffix(path: Path) -> None:
         )
 
 
-def _read_table(path: Path) -> pd.DataFrame:
-    suffix = path.suffix.lower()
+def read_table(source, *, filename: str | None = None) -> pd.DataFrame:
+    source_name = filename
+
+    if source_name is None:
+        if isinstance(source, (str, PathLike)):
+            source_name = str(source)
+        else:
+            source_name = getattr(source, "name", None)
+
+    if not source_name:
+        raise ValueError(
+            "A filename is required to determine the input file type."
+        )
+
+    source_path = Path(source_name)
+    _validate_suffix(source_path)
+    suffix = source_path.suffix.lower()
+
+    if suffix == ".xlsx":
+        _require_excel_support()
+
+    _validate_raw_header(source, suffix)
+    _rewind(source)
 
     if suffix == ".csv":
-        return pd.read_csv(path)
+        return pd.read_csv(source)
 
-    _require_excel_support()
-    return pd.read_excel(path, engine="openpyxl")
+    return pd.read_excel(source, engine="openpyxl")
+
+
+def _read_table(path: Path) -> pd.DataFrame:
+    return read_table(path)
+
+
+def _validate_raw_header(source, suffix: str) -> None:
+    _rewind(source)
+
+    if suffix == ".csv":
+        header = pd.read_csv(
+            source,
+            header=None,
+            nrows=1,
+            keep_default_na=False,
+        )
+    else:
+        header = pd.read_excel(
+            source,
+            header=None,
+            nrows=1,
+            keep_default_na=False,
+            engine="openpyxl",
+        )
+
+    if header.empty:
+        return
+
+    seen = set()
+    duplicates = []
+
+    for value in header.iloc[0].tolist():
+        if pd.isna(value):
+            continue
+
+        name = str(value)
+
+        if not name:
+            continue
+
+        if name in seen and name not in duplicates:
+            duplicates.append(name)
+
+        seen.add(name)
+
+    if duplicates:
+        names = ", ".join(duplicates)
+        raise ValueError(
+            f"Input contains duplicate column names: {names}"
+        )
+
+
+def _rewind(source) -> None:
+    seek = getattr(source, "seek", None)
+
+    if seek is not None:
+        seek(0)
 
 
 def _write_table(data: pd.DataFrame, path: Path) -> None:
