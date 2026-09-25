@@ -23,5 +23,5 @@ plugins:
 
 nav:
   - Home: index.md
-  - Web application: web-app.md
+  - Web interface: web-app.md
   - API Reference: api.md

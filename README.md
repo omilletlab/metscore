@@ -19,7 +19,7 @@ The implementation supports prediction from individual or multiple samples and e
 ## Contents
 
 - [About MetSCORE](#about-metscore)
-- [Web application](#web-application)
+- [Web interface](#web-interface)
 - [Installation](#installation)
 - [Input data](#input-data)
 - [Python usage](#python-usage)
@@ -32,11 +32,11 @@ The implementation supports prediction from individual or multiple samples and e
 - [Development](#development)
 - [License](#license)
 
-## Web application
+## Web interface
 
-MetSCORE also provides a web application for interactive calculation without requiring users to work directly with the Python API or command-line interface.
+MetSCORE includes a Streamlit web interface that provides a graphical front end to the same prediction workflows exposed through the Python API and command-line interface.
 
-The web interface supports:
+The interface supports:
 
 * CSV and Excel files containing one or multiple samples;
 * paired Bruker metabolite and lipoprotein XML reports.
@@ -45,9 +45,7 @@ The application uses the same validated Python implementation and prediction pip
 
 Bundled example inputs can be run or downloaded directly from the web interface for both tabular and Bruker XML workflows.
 
-See the [web application documentation](docs/web-app.md) for details.
-
-A link to the public hosted application will be added when deployment is available.
+See the [web interface documentation](docs/web-app.md) for details.
 
 ## Installation
 
@@ -441,7 +439,7 @@ The CSV and Excel files contain the same 100 example samples with anonymized ide
 
 The paired Bruker XML files represent `sample_001` from the tabular example dataset using the supported metabolite and lipoprotein report structures. The quantitative values in the XML files correspond to the same 22 MetSCORE input variables as `sample_001` in the CSV and Excel files.
 
-These examples can be used to test the Python API, command-line interface, and web application.
+These examples can be used to test the Python API, command-line interface, and web interface.
 
 ### Tabular example
 
@@ -468,7 +466,7 @@ data = pd.read_csv("examples/example_data.csv")
 result = metscore.predict(data)
 ```
 
-The same CSV or Excel file can also be uploaded directly through the tabular workflow of the web application.
+The same CSV or Excel file can also be uploaded directly through the tabular workflow of the web interface.
 
 ### Bruker XML example
 
@@ -491,7 +489,7 @@ result = metscore.predict_bruker_files(
 )
 ```
 
-The same two XML files can also be uploaded through the Bruker XML workflow of the web application.
+The same two XML files can also be uploaded through the Bruker XML workflow of the web interface.
 
 Automated tests verify that the CSV and Excel example datasets are equivalent and that the Bruker XML example produces the same MetSCORE prediction as `sample_001` in the tabular example data.
 
@@ -544,9 +542,9 @@ Run the full test suite with:
 uv run pytest
 ```
 
-### Run the web application locally
+### Run the web interface locally
 
-The Streamlit web application is maintained as a separate development dependency group.
+The Streamlit web interface is maintained as a separate development dependency group.
 
 Run it locally with:
 

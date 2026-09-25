@@ -1,19 +1,21 @@
-# Web application
+# Web interface
 
-MetSCORE provides a web interface for calculating and exploring MetSCORE without requiring a local Python installation.
+MetSCORE includes a Streamlit web interface for interactive calculation and exploration of MetSCORE results.
 
-The web application uses the same validated Python implementation distributed in the MetSCORE package. It provides a graphical interface around the existing prediction and input-processing functionality rather than a separate implementation of the model.
+The interface uses the same validated Python implementation as the Python API and command-line interface. It provides a graphical front end to the existing prediction and input-processing functionality rather than a separate implementation of the model.
+
+The web interface can be run locally or deployed in a compatible hosting environment.
 
 ## Input options
 
-The web application currently supports two input workflows:
+The web interface currently supports two input workflows:
 
 - tabular data in CSV or Excel format;
 - paired Bruker metabolite and lipoprotein XML reports.
 
 ### Example inputs
 
-Each input workflow includes bundled example data that can be used directly from the web application without downloading or preparing any files.
+Each input workflow includes bundled example data that can be used directly from the web interface without downloading or preparing any files.
 
 For tabular input, users can:
 
@@ -38,7 +40,7 @@ Additional columns are allowed and are preserved in the downloaded results.
 
 A dedicated sample identifier column is not required.
 
-The same input validation used by the Python package is applied by the web application.
+The same input validation used by the Python package is applied by the web interface.
 
 ### Single sample
 
@@ -88,14 +90,12 @@ Downloaded files preserve the input data and include the MetSCORE model outputs.
 
 ## Data handling
 
-Uploaded data are used to calculate MetSCORE through the web application.
+Uploaded data are used to calculate MetSCORE through the web interface.
 
 The application is designed so that scientific input data are not used for analytics or usage tracking.
-
-Specific deployment, retention, and privacy information will be documented for the public hosted version of the application.
 
 ## Research use
 
 MetSCORE is intended for research use.
 
-The web application does not change the analytical requirements or interpretation of the underlying MetSCORE model. Input data should follow the variable definitions, analytical origin, and units described in the MetSCORE documentation.
+The web interface does not change the analytical requirements or interpretation of the underlying MetSCORE model. Input data should follow the variable definitions, analytical origin, and units described in the MetSCORE documentation.
