@@ -14,6 +14,8 @@ This package provides an independent Python implementation of the trained MetSCO
 
 The implementation supports prediction from individual or multiple samples and exposes the MetSCORE value together with the underlying predictive (`t_pred`) and orthogonal (`t_orth`) model scores.
 
+**Documentation:** https://omilletlab.github.io/metscore/
+
 ## Contents
 
 - [About MetSCORE](#about-metscore)
