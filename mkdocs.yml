@@ -18,5 +18,5 @@ plugins:
 
 nav:
   - Home: index.md
+  - Web application: web-app.md
   - API Reference: api.md
-  - Design decisions: design-decisions.md

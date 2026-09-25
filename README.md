@@ -14,6 +14,39 @@ This package provides an independent Python implementation of the trained MetSCO
 
 The implementation supports prediction from individual or multiple samples and exposes the MetSCORE value together with the underlying predictive (`t_pred`) and orthogonal (`t_orth`) model scores.
 
+## Contents
+
+- [About MetSCORE](#about-metscore)
+- [Web application](#web-application)
+- [Installation](#installation)
+- [Input data](#input-data)
+- [Python usage](#python-usage)
+- [Command-line usage](#command-line-usage)
+- [Bruker XML input](#bruker-xml-input)
+- [Output](#output)
+- [Example data](#example-data)
+- [Model validation](#model-validation)
+- [Citation](#citation)
+- [Development](#development)
+- [License](#license)
+
+## Web application
+
+MetSCORE also provides a web application for interactive calculation without requiring users to work directly with the Python API or command-line interface.
+
+The web interface supports:
+
+* CSV and Excel files containing one or multiple samples;
+* paired Bruker metabolite and lipoprotein XML reports.
+
+The application uses the same validated Python implementation and prediction pipeline as the package.
+
+Bundled example inputs can be run or downloaded directly from the web interface for both tabular and Bruker XML workflows.
+
+See the [web application documentation](docs/web-app.md) for details.
+
+A link to the public hosted application will be added when deployment is available.
+
 ## Installation
 
 MetSCORE requires **Python 3.11 or newer**.
@@ -321,7 +354,7 @@ If no output path is specified, the prediction is written to the current working
 For example:
 
 ```text
-AK00028V4_S1_metscore.csv
+SAMPLE001_metscore.csv
 ```
 
 An explicit output path can be provided with `-o` or `--output`:
@@ -391,23 +424,40 @@ The order of samples is preserved.
 
 ## Example data
 
-The repository includes a complete example dataset:
+The repository includes example inputs for all currently supported input formats:
 
-```text id="jv5mw0"
-examples/example_data.csv
+```text
+examples/
+├── example_data.csv
+├── example_data.xlsx
+└── bruker/
+    ├── sample_001_metabolites.xml
+    └── sample_001_lipoproteins.xml
 ```
 
-It contains 100 example samples with anonymized identifiers (`sample_001`, `sample_002`, ...) and all 22 variables required by the MetSCORE model.
+The CSV and Excel files contain the same 100 example samples with anonymized identifiers (`sample_001`, `sample_002`, ...).
 
-The file can be used directly with either the Python API or the command-line interface:
+The paired Bruker XML files represent `sample_001` from the tabular example dataset using the supported metabolite and lipoprotein report structures. The quantitative values in the XML files correspond to the same 22 MetSCORE input variables as `sample_001` in the CSV and Excel files.
 
-```bash id="ioioy7"
+These examples can be used to test the Python API, command-line interface, and web application.
+
+### Tabular example
+
+From the command line:
+
+```bash
 metscore examples/example_data.csv
 ```
 
 or:
 
-```python id="8uqwj9"
+```bash
+metscore examples/example_data.xlsx
+```
+
+From Python:
+
+```python
 import pandas as pd
 
 import metscore
@@ -415,6 +465,33 @@ import metscore
 data = pd.read_csv("examples/example_data.csv")
 result = metscore.predict(data)
 ```
+
+The same CSV or Excel file can also be uploaded directly through the tabular workflow of the web application.
+
+### Bruker XML example
+
+From the command line:
+
+```bash
+metscore \
+  examples/bruker/sample_001_metabolites.xml \
+  examples/bruker/sample_001_lipoproteins.xml
+```
+
+From Python:
+
+```python
+import metscore
+
+result = metscore.predict_bruker_files(
+    "examples/bruker/sample_001_metabolites.xml",
+    "examples/bruker/sample_001_lipoproteins.xml",
+)
+```
+
+The same two XML files can also be uploaded through the Bruker XML workflow of the web application.
+
+Automated tests verify that the CSV and Excel example datasets are equivalent and that the Bruker XML example produces the same MetSCORE prediction as `sample_001` in the tabular example data.
 
 ## Model validation
 
@@ -453,7 +530,7 @@ git clone https://github.com/omilletlab/metscore.git
 cd metscore
 ```
 
-Create the complete development environment, including optional Excel support:
+Create the development environment, including optional Excel support:
 
 ```bash
 uv sync --extra excel
@@ -465,9 +542,21 @@ Run the full test suite with:
 uv run pytest
 ```
 
-The main architectural and implementation decisions are documented in [docs/design-decisions.md](docs/design-decisions.md).
+### Run the web application locally
 
-Contributions should preserve the separation between input/output adapters and the mathematical model core. New functionality should be accompanied by appropriate automated tests.
+The Streamlit web application is maintained as a separate development dependency group.
+
+Run it locally with:
+
+```bash
+uv run --group app streamlit run app/streamlit_app.py
+```
+
+The application will be available through the local Streamlit server, typically at:
+
+```text
+http://localhost:8501
+```
 
 ## License
 

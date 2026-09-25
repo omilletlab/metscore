@@ -3,11 +3,15 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
+import metscore
 from metscore.files import predict_bruker_file_pair, predict_file, read_table
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE_DATA = PROJECT_ROOT / "examples" / "example_data.csv"
+EXAMPLE_DATA_XLSX = PROJECT_ROOT / "examples" / "example_data.xlsx"
+BRUKER_EXAMPLE_DIR = PROJECT_ROOT / "examples" / "bruker"
+BRUKER_EXAMPLE_METABOLITES = BRUKER_EXAMPLE_DIR / "sample_001_metabolites.xml"
+BRUKER_EXAMPLE_LIPOPROTEINS = BRUKER_EXAMPLE_DIR / "sample_001_lipoproteins.xml"
 
 
 def test_predict_file_uses_current_directory_by_default(
@@ -223,22 +227,16 @@ def test_predict_bruker_file_pair_uses_sample_id_for_default_output(
         "L6TG",
     ]
 
-    metabolite_parameters = "\n".join(
-        f"""
+    metabolite_parameters = "\n".join(f"""
       <PARAMETER name="{name}" type="quantification">
          <VALUE conc="1.0" concUnit="mmol/L"/>
          <RELDATA rawConc="1.0" rawConcUnit="mmol/L"/>
-      </PARAMETER>"""
-        for name in metabolite_names
-    )
+      </PARAMETER>""" for name in metabolite_names)
 
-    lipoprotein_parameters = "\n".join(
-        f"""
+    lipoprotein_parameters = "\n".join(f"""
       <PARAMETER name="{name}" type="prediction">
          <VALUE value="1.0" unit="mg/dL"/>
-      </PARAMETER>"""
-        for name in lipoprotein_names
-    )
+      </PARAMETER>""" for name in lipoprotein_names)
 
     metabolite_xml.write_text(
         f"""\
@@ -454,6 +452,7 @@ def test_predict_bruker_file_pair_rejects_unsafe_sample_id(
             second_xml,
         )
 
+
 def test_read_table_rejects_duplicate_csv_headers(tmp_path):
     path = tmp_path / "duplicate.csv"
     path.write_text(
@@ -485,3 +484,40 @@ def test_read_table_rejects_duplicate_excel_headers(tmp_path):
         match=r"duplicate column names.*Alanine",
     ):
         read_table(path)
+
+
+def test_example_csv_and_excel_are_equivalent() -> None:
+    pytest.importorskip("openpyxl")
+
+    csv_data = read_table(EXAMPLE_DATA)
+    excel_data = read_table(EXAMPLE_DATA_XLSX)
+
+    pd.testing.assert_frame_equal(
+        csv_data,
+        excel_data,
+        check_dtype=False,
+    )
+
+
+def test_example_bruker_xml_matches_tabular_example() -> None:
+    tabular_data = read_table(EXAMPLE_DATA).iloc[[0]]
+    tabular_result = metscore.predict(tabular_data)
+
+    bruker_result = metscore.predict_bruker_files(
+        BRUKER_EXAMPLE_METABOLITES,
+        BRUKER_EXAMPLE_LIPOPROTEINS,
+    )
+
+    columns = [
+        "MetSCORE",
+        "t_pred",
+        "t_orth_1",
+    ]
+
+    pd.testing.assert_frame_equal(
+        tabular_result[columns].reset_index(drop=True),
+        bruker_result[columns].reset_index(drop=True),
+        check_dtype=False,
+        rtol=1e-12,
+        atol=1e-12,
+    )
