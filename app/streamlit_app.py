@@ -20,6 +20,9 @@ def initialize_session_state() -> None:
     if "selected_result_row" not in st.session_state:
         st.session_state.selected_result_row = None
 
+    if "tabular_uploader_version" not in st.session_state:
+        st.session_state.tabular_uploader_version = 0
+
     if "bruker_uploader_version" not in st.session_state:
         st.session_state.bruker_uploader_version = 0
 
@@ -218,6 +221,7 @@ def render_input_selector() -> None:
 
             st.button(
                 "Use Bruker XML",
+                type="primary",
                 width="stretch",
                 key="bruker_button",
                 on_click=set_input_mode,

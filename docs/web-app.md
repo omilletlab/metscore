@@ -11,6 +11,23 @@ The web application currently supports two input workflows:
 - tabular data in CSV or Excel format;
 - paired Bruker metabolite and lipoprotein XML reports.
 
+### Example inputs
+
+Each input workflow includes bundled example data that can be used directly from the web application without downloading or preparing any files.
+
+For tabular input, users can:
+
+- run the bundled example dataset directly;
+- download the example as CSV;
+- download the equivalent example as Excel.
+
+For Bruker input, users can:
+
+- run a bundled pair of metabolite and lipoprotein XML reports directly;
+- download either XML report to inspect the expected file structure.
+
+The bundled examples use the same canonical example files distributed with the MetSCORE repository.
+
 ## Tabular data
 
 CSV and Excel files may contain one or multiple samples, with one sample per row.

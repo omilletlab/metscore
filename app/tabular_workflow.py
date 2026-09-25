@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import metscore
 import streamlit as st
 from metscore.files import read_table
@@ -8,10 +10,39 @@ from ui import (
     render_individual_result,
 )
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+EXAMPLE_DATA_CSV = PROJECT_ROOT / "examples" / "example_data.csv"
+EXAMPLE_DATA_XLSX = PROJECT_ROOT / "examples" / "example_data.xlsx"
+
 
 def reset_tabular_navigation() -> None:
     st.session_state.selected_result_row = None
     st.session_state.pop("tabular_results_table", None)
+
+
+def reset_tabular_workflow() -> None:
+    reset_tabular_navigation()
+    st.session_state.tabular_uploader_version += 1
+    st.session_state.pop("tabular_use_example", None)
+
+
+def handle_tabular_upload_change() -> None:
+    reset_tabular_navigation()
+    st.session_state.tabular_use_example = False
+
+
+def activate_tabular_example() -> None:
+    reset_tabular_navigation()
+    st.session_state.tabular_use_example = True
+
+
+def render_process_another_dataset_button() -> None:
+    st.button(
+        "Process another dataset",
+        type="secondary",
+        width="stretch",
+        on_click=reset_tabular_workflow,
+    )
 
 
 def render_tabular_workflow() -> None:
@@ -29,8 +60,7 @@ def render_tabular_workflow() -> None:
             width="stretch",
         ):
             st.session_state.input_mode = None
-            reset_tabular_navigation()
-            st.session_state.pop("tabular_file", None)
+            reset_tabular_workflow()
             st.rerun()
 
     st.subheader("Upload tabular data")
@@ -43,22 +73,68 @@ def render_tabular_workflow() -> None:
     uploaded_file = st.file_uploader(
         "Choose a file",
         type=["csv", "xlsx"],
-        key="tabular_file",
+        key=f"tabular_file_{st.session_state.tabular_uploader_version}",
         width="stretch",
-        on_change=reset_tabular_navigation,
+        on_change=handle_tabular_upload_change,
     )
 
-    if uploaded_file is None:
+    use_example = st.session_state.get("tabular_use_example", False)
+
+    if uploaded_file is None and not use_example:
+        st.caption(
+            "No file ready? Try the bundled example or download it to inspect "
+            "the expected input format."
+        )
+
+        try_col, csv_col, excel_col = st.columns([1.2, 1, 1])
+
+        with try_col:
+            st.button(
+                "Try example data",
+                width="stretch",
+                on_click=activate_tabular_example,
+            )
+
+        with csv_col:
+            st.download_button(
+                "Download CSV",
+                data=EXAMPLE_DATA_CSV.read_bytes(),
+                file_name=EXAMPLE_DATA_CSV.name,
+                mime="text/csv",
+                width="stretch",
+                on_click="ignore",
+            )
+
+        with excel_col:
+            st.download_button(
+                "Download Excel",
+                data=EXAMPLE_DATA_XLSX.read_bytes(),
+                file_name=EXAMPLE_DATA_XLSX.name,
+                mime=(
+                    "application/vnd.openxmlformats-officedocument."
+                    "spreadsheetml.sheet"
+                ),
+                width="stretch",
+                on_click="ignore",
+            )
+
+    if use_example:
+        source = EXAMPLE_DATA_CSV
+        source_name = f"Example · {EXAMPLE_DATA_CSV.name}"
+    elif uploaded_file is not None:
+        source = uploaded_file
+        source_name = uploaded_file.name
+    else:
         return
 
     try:
-        data = read_table(uploaded_file)
+        data = read_table(source)
     except Exception as exc:
-        st.error(f"Could not read the uploaded file: {exc}")
+        st.error(f"Could not read the input file: {exc}")
         return
 
     st.caption(
-        f"✓ {uploaded_file.name} · "
+        f"✓ {source_name} · "
         f"{len(data)} sample(s) · "
         f"{len(data.columns)} input columns"
     )
@@ -66,16 +142,17 @@ def render_tabular_workflow() -> None:
     try:
         result = metscore.predict(data)
     except (TypeError, ValueError) as exc:
-        st.error("The uploaded data are not compatible with MetSCORE.")
+        st.error("The input data are not compatible with MetSCORE.")
         st.error(str(exc))
 
-        with st.expander("Inspect uploaded data"):
+        with st.expander("Inspect input data"):
             st.dataframe(
                 data,
                 width="stretch",
                 hide_index=True,
             )
 
+        render_process_another_dataset_button()
         return
 
     output_columns = [
@@ -103,6 +180,15 @@ def render_tabular_workflow() -> None:
         ),
     }
 
+    if use_example:
+        download_kwargs = {
+            "base_name": "example_data_metscore_results",
+        }
+    else:
+        download_kwargs = {
+            "uploaded_file": uploaded_file,
+        }
+
     if len(result) == 1:
         render_breadcrumb("Upload &nbsp;›&nbsp; <strong>Individual result</strong>")
 
@@ -113,9 +199,10 @@ def render_tabular_workflow() -> None:
 
         render_download_controls(
             result,
-            uploaded_file,
+            **download_kwargs,
         )
 
+        render_process_another_dataset_button()
         return
 
     selected_row = st.session_state.get("selected_result_row")
@@ -144,9 +231,10 @@ def render_tabular_workflow() -> None:
 
         render_download_controls(
             result,
-            uploaded_file,
+            **download_kwargs,
         )
 
+        render_process_another_dataset_button()
         return
 
     render_breadcrumb(
@@ -166,3 +254,5 @@ def render_tabular_workflow() -> None:
         result.iloc[selected_row],
         data.iloc[[selected_row]],
     )
+
+    render_process_another_dataset_button()

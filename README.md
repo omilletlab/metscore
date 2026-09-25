@@ -41,6 +41,8 @@ The web interface supports:
 
 The application uses the same validated Python implementation and prediction pipeline as the package.
 
+Bundled example inputs can be run or downloaded directly from the web interface for both tabular and Bruker XML workflows.
+
 See the [web application documentation](docs/web-app.md) for details.
 
 A link to the public hosted application will be added when deployment is available.
