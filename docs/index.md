@@ -10,7 +10,7 @@ The software can be used through:
 
 MetSCORE supports tabular CSV and Excel data as well as paired Bruker metabolite and lipoprotein XML reports.
 
-This documentation covers the public Python API, supported input formats, web application, and implementation design decisions.
+This documentation covers the public Python API, supported input formats, and web application.
 
 ## Documentation
 
