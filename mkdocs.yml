@@ -1,5 +1,10 @@
 site_name: MetSCORE
 site_description: Python implementation of MetSCORE
+site_url: https://omilletlab.github.io/metscore/
+
+repo_url: https://github.com/omilletlab/metscore
+repo_name: omilletlab/metscore
+edit_uri: ""
 
 theme:
   name: mkdocs
