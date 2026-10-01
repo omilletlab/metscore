@@ -26,32 +26,16 @@ def initialize_session_state() -> None:
 def render_styles() -> None:
     st.html("""
         <style>
-        :root {
-            --text: #17212b;
-            --text-muted: #66727d;
-            --primary: #2479a8;
-            --primary-dark: #195b80;
-            --primary-soft: #eaf4f9;
-            --border: #dce5ea;
-        }
 
         .block-container {
             max-width: 1180px;
-            padding-top: 1.5rem;
-            padding-bottom: 2rem;
-        }
-
-        h3 {
-            color: var(--text);
         }
 
         div[data-testid="stVerticalBlockBorderWrapper"] {
-            border-color: var(--border);
             border-radius: 12px;
         }
 
         .input-label {
-            color: var(--primary);
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.08em;
@@ -66,20 +50,19 @@ def render_styles() -> None:
         }
 
         .header-links a {
-            color: var(--primary);
+            color: inherit;
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 600;
             padding: 0.4rem 0.75rem;
-            border: 1px solid var(--border);
+            border: 1px solid currentColor;
             border-radius: 999px;
-            background: white;
+            background: transparent;
+            opacity: 0.75;
         }
 
         .header-links a:hover {
-            color: var(--primary-dark);
-            border-color: var(--primary);
-            background: var(--primary-soft);
+            opacity: 1;
         }
 
         .app-intro {
@@ -88,12 +71,12 @@ def render_styles() -> None:
         }
 
         .app-divider {
-            border-top: 1px solid var(--border);
+            border-top: 1px solid currentColor;
+            opacity: 0.18;
             margin: 0.45rem 0 1.25rem 0;
         }
 
         .app-intro h1 {
-            color: var(--text);
             font-size: clamp(2.7rem, 5vw, 4rem);
             line-height: 1;
             letter-spacing: -0.05em;
@@ -102,7 +85,6 @@ def render_styles() -> None:
         }
 
         .app-intro p {
-            color: var(--text);
             margin: 0 0 0.9rem 0;
             padding: 0;
         }
@@ -126,7 +108,6 @@ def render_header() -> None:
         st.html("""
             <div style="line-height:1.35;">
                 <div style="
-                    color:#17212b;
                     font-weight:700;
                     font-size:0.95rem;
                     margin-bottom:0.25rem;
@@ -137,7 +118,8 @@ def render_header() -> None:
                     href="https://www.cicbiogune.es/"
                     target="_blank"
                     style="
-                        color:#66727d;
+                        color:inherit;
+                        opacity:0.65;
                         font-size:0.82rem;
                         text-decoration:none;
                     "
