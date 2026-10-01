@@ -5,13 +5,12 @@ import pytest
 
 import metscore
 from metscore.files import predict_bruker_file_pair, predict_file, read_table
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_DATA = PROJECT_ROOT / "examples" / "example_data.csv"
-EXAMPLE_DATA_XLSX = PROJECT_ROOT / "examples" / "example_data.xlsx"
-BRUKER_EXAMPLE_DIR = PROJECT_ROOT / "examples" / "bruker"
-BRUKER_EXAMPLE_METABOLITES = BRUKER_EXAMPLE_DIR / "sample_001_metabolites.xml"
-BRUKER_EXAMPLE_LIPOPROTEINS = BRUKER_EXAMPLE_DIR / "sample_001_lipoproteins.xml"
+from metscore.resources import (
+    EXAMPLE_DATA_CSV as EXAMPLE_DATA,
+    EXAMPLE_DATA_XLSX,
+    EXAMPLE_LIPOPROTEINS_XML as BRUKER_EXAMPLE_LIPOPROTEINS,
+    EXAMPLE_METABOLITES_XML as BRUKER_EXAMPLE_METABOLITES,
+)
 
 
 def test_predict_file_uses_current_directory_by_default(

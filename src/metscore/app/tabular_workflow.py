@@ -1,18 +1,16 @@
-from pathlib import Path
-
 import metscore
 import streamlit as st
 from metscore.files import read_table
 
-from ui import (
+from metscore.resources import (
+    EXAMPLE_DATA_CSV,
+    EXAMPLE_DATA_XLSX,
+)
+from metscore.app.ui import (
     render_breadcrumb,
     render_download_controls,
     render_individual_result,
 )
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_DATA_CSV = PROJECT_ROOT / "examples" / "example_data.csv"
-EXAMPLE_DATA_XLSX = PROJECT_ROOT / "examples" / "example_data.xlsx"
 
 
 def reset_tabular_navigation() -> None:

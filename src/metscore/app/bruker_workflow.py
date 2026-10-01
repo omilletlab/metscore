@@ -4,16 +4,15 @@ from tempfile import TemporaryDirectory
 import metscore
 import streamlit as st
 
-from ui import (
+from metscore.resources import (
+    EXAMPLE_LIPOPROTEINS_XML,
+    EXAMPLE_METABOLITES_XML,
+)
+from metscore.app.ui import (
     render_breadcrumb,
     render_download_controls,
     render_individual_result,
 )
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_BRUKER_DIR = PROJECT_ROOT / "examples" / "bruker"
-EXAMPLE_METABOLITES_XML = EXAMPLE_BRUKER_DIR / "sample_001_metabolites.xml"
-EXAMPLE_LIPOPROTEINS_XML = EXAMPLE_BRUKER_DIR / "sample_001_lipoproteins.xml"
 
 
 def reset_bruker_workflow() -> None:

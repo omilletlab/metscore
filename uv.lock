@@ -476,15 +476,15 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+app = [
+    { name = "openpyxl" },
+    { name = "streamlit" },
+]
 excel = [
     { name = "openpyxl" },
 ]
 
 [package.dev-dependencies]
-app = [
-    { name = "openpyxl" },
-    { name = "streamlit" },
-]
 dev = [
     { name = "pytest" },
 ]
@@ -495,17 +495,15 @@ docs = [
 
 [package.metadata]
 requires-dist = [
+    { name = "metscore", extras = ["excel"], marker = "extra == 'app'" },
     { name = "numpy", specifier = ">=1.26" },
     { name = "openpyxl", marker = "extra == 'excel'", specifier = ">=3.1.5" },
     { name = "pandas", specifier = ">=2.2.2" },
+    { name = "streamlit", marker = "extra == 'app'", specifier = ">=1.64.0" },
 ]
-provides-extras = ["excel"]
+provides-extras = ["excel", "app"]
 
 [package.metadata.requires-dev]
-app = [
-    { name = "openpyxl", specifier = ">=3.1.5" },
-    { name = "streamlit", specifier = ">=1.64.0" },
-]
 dev = [{ name = "pytest", specifier = ">=9.1.1" }]
 docs = [
     { name = "mkdocs", specifier = ">=1.6.1" },

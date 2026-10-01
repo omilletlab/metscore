@@ -3,10 +3,7 @@ from pathlib import Path
 import pytest
 
 from metscore.cli import main
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_DATA = PROJECT_ROOT / "examples" / "example_data.csv"
+from metscore.resources import EXAMPLE_DATA_CSV as EXAMPLE_DATA
 
 
 def test_cli_creates_default_output(
@@ -202,10 +199,7 @@ def test_cli_rejects_single_bruker_xml(
     assert exc_info.value.code == 2
 
     captured = capsys.readouterr()
-    assert (
-        "Bruker XML prediction requires two XML input files"
-        in captured.err
-    )
+    assert "Bruker XML prediction requires two XML input files" in captured.err
 
 
 def test_cli_rejects_more_than_two_inputs(
@@ -224,6 +218,5 @@ def test_cli_rejects_more_than_two_inputs(
 
     captured = capsys.readouterr()
     assert (
-        "Expected one CSV/XLSX input file or two Bruker XML input files"
-        in captured.err
+        "Expected one CSV/XLSX input file or two Bruker XML input files" in captured.err
     )
