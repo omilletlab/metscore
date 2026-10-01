@@ -13,19 +13,21 @@ dependencies = [
 excel = [
     "openpyxl>=3.1.5",
 ]
+app = [
+    "metscore[excel]",
+    "streamlit>=1.64.0",
+]
 
 [project.scripts]
 metscore = "metscore.cli:main"
+metscore-gui = "metscore.app.launcher:main"
+metscore-examples = "metscore.examples_cli:main"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-app = [
-    "openpyxl>=3.1.5",
-    "streamlit>=1.64.0",
-]
 dev = [
     "pytest>=9.1.1",
 ]

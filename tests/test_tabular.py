@@ -1,17 +1,10 @@
-import pytest
-
-from metscore.parameters import load_parameters
-
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
+import pytest
 
 import metscore
-
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_DATA = PROJECT_ROOT / "examples" / "example_data.csv"
+from metscore.parameters import load_parameters
+from metscore.resources import EXAMPLE_DATA_CSV as EXAMPLE_DATA
 
 
 def test_predict_matches_reference_order_independently() -> None:

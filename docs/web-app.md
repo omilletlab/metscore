@@ -6,6 +6,22 @@ The interface uses the same validated Python implementation as the Python API an
 
 The web interface can be run locally or deployed in a compatible hosting environment.
 
+## Running locally
+
+Install MetSCORE with the optional web interface dependencies:
+
+```bash
+python -m pip install ".[app]"
+```
+
+Then launch the interface with:
+
+```bash
+metscore-gui
+```
+
+This starts the packaged Streamlit application using the installed MetSCORE environment.
+
 ## Input options
 
 The web interface currently supports two input workflows:
@@ -28,7 +44,7 @@ For Bruker input, users can:
 - run a bundled pair of metabolite and lipoprotein XML reports directly;
 - download either XML report to inspect the expected file structure.
 
-The bundled examples use the same canonical example files distributed with the MetSCORE repository.
+The bundled examples use the same canonical example files distributed with the MetSCORE package.
 
 ## Tabular data
 

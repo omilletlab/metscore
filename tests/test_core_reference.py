@@ -5,15 +5,11 @@ import numpy as np
 
 from metscore.core import predict_array
 from metscore.parameters import load_parameters
-
+from metscore.resources import EXAMPLE_DATA_CSV as EXAMPLE_DATA
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-EXAMPLE_DATA = PROJECT_ROOT / "examples" / "example_data.csv"
 REFERENCE_PREDICTIONS = (
-    PROJECT_ROOT
-    / "tests"
-    / "fixtures"
-    / "original_model_predictions.csv"
+    PROJECT_ROOT / "tests" / "fixtures" / "original_model_predictions.csv"
 )
 REFERENCE_SAMPLE_COUNT = 100
 
@@ -46,15 +42,9 @@ def test_predictions_match_original_model() -> None:
         dtype=float,
     )
 
-    expected_metscore = np.array(
-        [float(row["MetSCORE"]) for row in reference_rows]
-    )
-    expected_t_pred = np.array(
-        [float(row["t_pred"]) for row in reference_rows]
-    )
-    expected_t_orth = np.array(
-        [float(row["t_orth_1"]) for row in reference_rows]
-    )
+    expected_metscore = np.array([float(row["MetSCORE"]) for row in reference_rows])
+    expected_t_pred = np.array([float(row["t_pred"]) for row in reference_rows])
+    expected_t_orth = np.array([float(row["t_orth_1"]) for row in reference_rows])
 
     result = predict_array(x)
 

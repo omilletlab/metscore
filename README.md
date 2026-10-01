@@ -67,7 +67,37 @@ For optional Excel (`.xlsx`) support, install the `excel` extra:
 python -m pip install ".[excel]"
 ```
 
-The base installation supports the Python API, CSV input, and Bruker XML input. Excel support is kept optional to avoid installing additional dependencies when it is not needed.
+To install the Streamlit web interface, install the `app` extra:
+
+```bash
+python -m pip install ".[app]"
+```
+
+The `app` extra also includes Excel support.
+
+The base installation provides the Python API, command-line interface, CSV input, Bruker XML input, and packaged example datasets. Excel support and the Streamlit web interface are optional dependencies.
+
+## Installed commands
+
+MetSCORE provides the following command-line entry points:
+
+```text
+metscore
+metscore-examples
+metscore-gui
+```
+
+`metscore` runs the main command-line interface for MetSCORE prediction workflows.
+
+`metscore-examples` exports the packaged example datasets to a user-accessible directory.
+
+`metscore-gui` launches the local Streamlit web interface and is available when MetSCORE is installed with the `app` extra:
+
+```bash
+python -m pip install ".[app]"
+```
+
+The base installation provides `metscore` and `metscore-examples`. The `app` extra adds the dependencies required by `metscore-gui`.
 
 ## Input data
 
@@ -424,15 +454,29 @@ The order of samples is preserved.
 
 ## Example data
 
-The repository includes example inputs for all currently supported input formats:
+MetSCORE includes example inputs for all currently supported input formats.
+
+Export the example files to the current directory with:
+
+```bash
+metscore-examples
+```
+
+This creates:
 
 ```text
-examples/
+metscore-examples/
 ├── example_data.csv
 ├── example_data.xlsx
 └── bruker/
     ├── sample_001_metabolites.xml
     └── sample_001_lipoproteins.xml
+```
+
+A different destination directory can be specified explicitly:
+
+```bash
+metscore-examples path/to/destination
 ```
 
 The CSV and Excel files contain the same 100 example samples with anonymized identifiers (`sample_001`, `sample_002`, ...).
@@ -443,16 +487,22 @@ These examples can be used to test the Python API, command-line interface, and w
 
 ### Tabular example
 
-From the command line:
+First export the example datasets:
 
 ```bash
-metscore examples/example_data.csv
+metscore-examples
+```
+
+Then, from the command line:
+
+```bash
+metscore metscore-examples/example_data.csv
 ```
 
 or:
 
 ```bash
-metscore examples/example_data.xlsx
+metscore metscore-examples/example_data.xlsx
 ```
 
 From Python:
@@ -462,7 +512,7 @@ import pandas as pd
 
 import metscore
 
-data = pd.read_csv("examples/example_data.csv")
+data = pd.read_csv("metscore-examples/example_data.csv")
 result = metscore.predict(data)
 ```
 
@@ -474,8 +524,8 @@ From the command line:
 
 ```bash
 metscore \
-  examples/bruker/sample_001_metabolites.xml \
-  examples/bruker/sample_001_lipoproteins.xml
+  metscore-examples/bruker/sample_001_metabolites.xml \
+  metscore-examples/bruker/sample_001_lipoproteins.xml
 ```
 
 From Python:
@@ -484,8 +534,8 @@ From Python:
 import metscore
 
 result = metscore.predict_bruker_files(
-    "examples/bruker/sample_001_metabolites.xml",
-    "examples/bruker/sample_001_lipoproteins.xml",
+    "metscore-examples/bruker/sample_001_metabolites.xml",
+    "metscore-examples/bruker/sample_001_lipoproteins.xml",
 )
 ```
 
@@ -530,10 +580,10 @@ git clone https://github.com/omilletlab/metscore.git
 cd metscore
 ```
 
-Create the development environment, including optional Excel support:
+Create the development environment, including the optional web interface and Excel support:
 
 ```bash
-uv sync --extra excel
+uv sync --extra app
 ```
 
 Run the full test suite with:
@@ -544,12 +594,10 @@ uv run pytest
 
 ### Run the web interface locally
 
-The Streamlit web interface is maintained as a separate development dependency group.
-
-Run it locally with:
+Launch the packaged Streamlit web interface with:
 
 ```bash
-uv run --group app streamlit run app/streamlit_app.py
+uv run --extra app metscore-gui
 ```
 
 The application will be available through the local Streamlit server, typically at:

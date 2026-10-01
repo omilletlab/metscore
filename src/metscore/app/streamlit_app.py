@@ -1,12 +1,8 @@
-from pathlib import Path
-
 import streamlit as st
 
-from bruker_workflow import render_bruker_workflow
-from tabular_workflow import render_tabular_workflow
-
-APP_DIR = Path(__file__).parent
-LOGO_PATH = APP_DIR / "assets" / "omilletlab-logo.png"
+from metscore.app.bruker_workflow import render_bruker_workflow
+from metscore.app.resources import LOGO_PATH
+from metscore.app.tabular_workflow import render_tabular_workflow
 
 
 def set_input_mode(mode: str) -> None:
